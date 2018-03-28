@@ -11,6 +11,7 @@ Instead of JSX you can write the syntax as below:
 */
 
 import React, { Component } from 'react';
+import Radium, { StyleRoot } from 'radium';
 import './App.css';
 import Person from './Person/Person';
 
@@ -86,11 +87,16 @@ class App extends Component {
   render() {
 
     const style = {
-      backGroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
@@ -111,12 +117,29 @@ class App extends Component {
           }
         </div> 
       )
+
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'pink',
+        color: 'black'
+      }
     }
 
+    let classes = [];
+    if (this.state.persons.length <=2) {
+      classes.push('red');
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold');
+    }
+
+    classes = classes.join(' ');
+
     return (
+      <StyleRoot>
       <div className="App">
         <h1> Hi, This is a first react app </h1>
-        <p> This is a para </p>
+        <p className = { classes }> This is a para </p>
         <button 
           style = { style }
           onClick = {this.togglePersonsHandler }> Toggle Persons </button>
@@ -124,8 +147,9 @@ class App extends Component {
          persons
         }
       </div>
+      </StyleRoot>
     );
   }
 }
 
-export default App;
+export default Radium(App);
