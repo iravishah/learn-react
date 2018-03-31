@@ -11,7 +11,7 @@ Instead of JSX you can write the syntax as below:
 */
 
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -84,17 +84,8 @@ class App extends Component {
   }
 
   render() {
-
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
-
     let persons = null;
+    let btnClass = '';
 
     if(this.state.showPersons) {
       persons = (
@@ -112,26 +103,25 @@ class App extends Component {
           }
         </div> 
       )
-
-      style.backgroundColor = 'red';
+      btnClass = classes.Red;
     }
 
-    let classes = [];
+    let assignedClasses = [];
     if (this.state.persons.length <=2) {
-      classes.push('red');
+      assignedClasses.push(classes.red);
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold');
+      assignedClasses.push(classes.bold);
     }
 
-    classes = classes.join(' ');
+    assignedClasses = assignedClasses.join(' ');
 
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1> Hi, This is a first react app </h1>
-        <p className = { classes }> This is a para </p>
+        <p className = { assignedClasses }> This is a para </p>
         <button 
-          style = { style }
+          className = {btnClass}
           onClick = {this.togglePersonsHandler }> Toggle Persons </button>
         { 
          persons
