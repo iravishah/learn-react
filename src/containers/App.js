@@ -11,8 +11,10 @@ Instead of JSX you can write the syntax as below:
 */
 
 import React, { Component } from 'react';
+
 import classes from './App.css';
-import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -85,47 +87,23 @@ class App extends Component {
 
   render() {
     let persons = null;
-    let btnClass = '';
 
     if(this.state.showPersons) {
-      persons = (
-        <div>
-
-          {
-            this.state.persons.map((person, index) => {
-              return <Person 
-                      click = { this.removePersonHandler.bind(this, index) }
-                      name = { person.name }
-                      age = { person.age } 
-                      key = { person.id }
-                      changed = { (event) => this.changeNameHandler(event, person.id) }/>
-            })
-          }
-        </div> 
-      )
-      btnClass = classes.Red;
+      persons = <Persons
+        persons = {this.state.persons}
+        clicked = {this.removePersonHandler}
+        changed = {this.changeNameHandler}
+      />
     }
-
-    let assignedClasses = [];
-    if (this.state.persons.length <=2) {
-      assignedClasses.push(classes.red);
-    }
-    if (this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold);
-    }
-
-    assignedClasses = assignedClasses.join(' ');
 
     return (
       <div className={classes.App}>
-        <h1> Hi, This is a first react app </h1>
-        <p className = { assignedClasses }> This is a para </p>
-        <button 
-          className = {btnClass}
-          onClick = {this.togglePersonsHandler }> Toggle Persons </button>
-        { 
-         persons
-        }
+        <Cockpit 
+          showPersons = { this.state.showPersons }
+          persons = { this.state.persons }
+          clicked = { this.togglePersonsHandler }
+        />
+        { persons }
       </div>
     );
   }
